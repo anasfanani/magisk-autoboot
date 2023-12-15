@@ -1,89 +1,67 @@
-##  [English](README.md) | [Bahasa Indonesia](README-id.md)
+# Magisk Autoboot
 
-### AutoBoot Patch for Android Devices
+This repository contains a Magisk module designed to enable automatic booting of your Android device when it's connected to a charger or USB.
 
-This repository contains scripts and instructions to apply an AutoBoot patch to the `boot.img` of Android devices using Magisk. The AutoBoot patch enables the device to automatically boot to the home screen after a USB connection is detected.
+## Requirements
 
-### Prerequisites
+Before you can use this Magisk module, you need to ensure that:
 
-Before running the patch script, make sure you have the following:
+1. Android device rooted with [Magisk](https://github.com/topjohnwu/Magisk).
+2. Basic command line knowledge for module management.
+3. Backup of your `boot.img` to restore in case of issues.
 
-- A rooted Android device with Magisk installed.
+## Installation
 
-### Step-by-Step Guide: AutoPatch
+1. Download the latest zip file from the [Releases](https://github.com/anasfanani/magisk-autoboot/releases/latest) page.
+2. Install the downloaded zip file using Magisk App/TWRP.
+3. Power off your phone.
 
-1. Download the latest release from this repository.
+After installation, your Android will boot automatically on cable connected.
 
-2. Extract the contents of the release to your desired path, for example: `/sdcard/autoboot/`.
+## Usage
 
-3. Reboot your device into recovery mode.
+This module adds `autoboot.init.rc` and `autoboot.sh` to the boot image. The patching process can be viewed in `scripts/boot_patch.sh`. The `scripts` folder is obtained from the installed Magisk on Android in the `/data/adb/magisk` folder. Only some necessary code is imported and then modified for patching `boot.img`. 
 
-4. Open a terminal or use ADB shell to run the following command:
+In the `autoboot.sh` file, `MIN_CAPACITY=5` is set as the minimum battery percentage threshold before Android boots automatically. If your battery percentage is below 5, the device will wait until it reaches this threshold before booting automatically. If you need to adjust this threshold, change the `MIN_CAPACITY` value in the `autoboot.sh` file and reflash this module.
 
-```bash
-sh patch.sh auto
-```
+In case of any errors, your current boot image is backed up under `/data/adb/modules/magisk-autoboot/AutoBoot-Backup`. If something happens, you can safely restore them.
 
-5. The patching process will start, and your device will automatically apply the AutoBoot patch.
+## Troubleshooting
 
-6. After the patching is complete, check if the patch is working:
+If you encounter any issues while using this module, follow these steps:
 
-   - Unplug the phone's USB cable.
-   - Power off the phone.
-   - Plug in the USB cable again.
-   - The phone should boot, then shut down itself, and finally, auto-boot to the home screen. If this happens, the patch is working successfully.
+1. Check if your current boot image is backed up under `/data/adb/modules/magisk-autoboot/AutoBoot-Backup`. If it is, try restoring it.
 
-### Step-by-Step Guide: Manual Patch
+2. Confirm successful installation by checking the presence of the `autoboot.sh` file in the directory outputted by the `magisk --path` command, usually `/debug_ramdisk` or `/sbin`.
 
-1. Locate the `boot.img` file on your device.
+If you continue to experience issues, please raise an issue in the repository with a detailed description of the problem, steps to reproduce it, and any error messages you are seeing.
 
-2. Dump the `boot.img` to a directory on your device.
+## Disclaimer
 
-3. Patch the `boot.img` using MagiskBoot:
+This module is provided "as is" without warranty of any kind, either express or implied, including without limitation any warranties of merchantability, fitness for a particular purpose, and non-infringement. The entire risk as to the quality and performance of the module is with you. Should the module prove defective, you assume the cost of all necessary servicing, repair, or correction.
 
-```bash
-/data/adb/magisk/magiskboot unpack boot.img
-/data/adb/magisk/magiskboot cpio ramdisk.cpio \
-"mkdir 0700 overlay.d" \
-"add 0700 overlay.d/init.custom.rc files/init.custom.rc" \
-"mkdir 0700 overlay.d/sbin" \
-"add 0700 overlay.d/sbin/custom.sh files/init.custom.sh"
-/data/adb/magisk/magiskboot repack boot.img boot_patched_autoboot.img
-/data/adb/magisk/magiskboot cleanup
-```
-
-4. Flash the patched `boot.img` back to the boot partition. You can use the following command (adjust the paths accordingly):
-
-```bash
-dd if=/sdcard/autoboot/boot_patched_autoboot.img of=/dev/block/bootdevice/by-name/boot
-```
-
-### Important Notes
-
-- The patching process modifies the `boot.img`, which is a critical component of the Android system. Be cautious while applying patches and ensure you have proper backups in case anything goes wrong.
-- The provided `init.custom.sh` contains a proof-of-concept line that triggers a reboot. Avoid using this line in a production environment.
-
-### Disclaimer
-
-Use the provided scripts and patches at your own risk. The repository owner and contributors are not responsible for any damage or issues that may occur as a result of using these scripts.
-
-### Tested Devices
+## Tested Devices
 
 The patch has been successfully tested on the following devices:
 
 - Redmi 4X running Android 10
 - Samsung J3 (2016) running Android 7.1.2
+- Redmi Note 11 (spesn) Android 13
 
-### License
+## Links
+
+Here are some useful links for further reading:
+
+- [Magisk Details](https://topjohnwu.github.io/Magisk/details.html)
+- [Lineage OS Auto Boot on Charge Connected](https://xdaforums.com/t/lineage-os-auto-boot-on-charge-connected.3626364/page-3#post-89178846)
+- [How to Change Files in the Boot Image Using Magisk](https://xdaforums.com/t/how-to-change-files-in-the-boot-image-using-magisk.4495645/#post-88571069)
+
+## Credits
+
+- [John Wu & Contributors.](https://github.com/topjohnwu/Magisk) for The Magic Mask for Android
+- [bnsmb](https://xdaforums.com/m/bnsmb.8498037/) for the guides at xdaforums.com
+- [tparaizo](https://xdaforums.com/m/tparaizo.9457413/) for the guides at xdaforums.com
+
+## License
 
 This project is licensed under the [MIT License](LICENSE).
-
-### Contribution Guidelines
-
-Contributions to this repository are welcome. If you have any improvements, bug fixes, or new features to suggest, feel free to create a pull request.
-
-### Contact Information
-
-For questions or inquiries, you can reach out to the repository owner [here](mailto:lexaveykov@gmail.com).
-
----
