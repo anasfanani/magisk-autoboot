@@ -17,10 +17,7 @@
 #                              directory to complete the patching process.
 # util_functions.sh  script    A script which hosts all functions required
 #                              for this script to work properly.
-# magiskinit         binary    The binary to replace /init.
-# magisk(32/64)      binary    The magisk binaries.
 # magiskboot         binary    A tool to manipulate boot images.
-# stub.apk           binary    The stub Magisk app to embed into ramdisk.
 # chromeos           folder    This folder includes the utility and keys to sign
 #                  (optional)  chromeos boot images. Only used for Pixel C.
 #
