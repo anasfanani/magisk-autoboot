@@ -125,11 +125,11 @@ case $((STATUS & 3)) in
     ;;
   1 )  # Magisk patched
     ui_print "- Magisk patched boot image detected"
-    ./magiskboot cpio ramdisk.cpio \
-    "extract .backup/.magisk config.orig" \
-    "restore"
-    cp -af ramdisk.cpio ramdisk.cpio.orig
-    rm -f stock_boot.img
+    # ./magiskboot cpio ramdisk.cpio \
+    # "extract .backup/.magisk config.orig" \
+    # "restore"
+    # cp -af ramdisk.cpio ramdisk.cpio.orig
+    # rm -f stock_boot.img
     ;;
   2 )  # Unsupported
     ui_print "! Boot image patched by unsupported programs"
@@ -175,9 +175,9 @@ fi
 "add 0750 overlay.d/init.autoboot.rc files/init.autoboot.rc" \
 "add 0750 overlay.d/sbin/autoboot.sh files/autoboot.sh" \
 "patch" \
-"$SKIP_BACKUP backup ramdisk.cpio.orig" \
-"mkdir 000 .backup" \
-"add 000 .backup/.magisk config" \
+"#$SKIP_BACKUP backup ramdisk.cpio.orig" \
+"#mkdir 000 .backup" \
+"#add 000 .backup/.magisk config" \
 || abort "! Unable to patch ramdisk"
 
 rm -f ramdisk.cpio.orig config magisk*.xz stub.xz
