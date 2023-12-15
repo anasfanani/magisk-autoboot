@@ -121,9 +121,7 @@ fi
 case $((STATUS & 3)) in
   0 )  # Stock boot
     ui_print "- Stock boot image detected"
-    SHA1=$(./magiskboot sha1 "$BOOTIMAGE" 2>/dev/null)
-    cat $BOOTIMAGE > stock_boot.img
-    cp -af ramdisk.cpio ramdisk.cpio.orig 2>/dev/null
+    abort "! Please install Magisk first" 
     ;;
   1 )  # Magisk patched
     ui_print "- Magisk patched boot image detected"
@@ -162,21 +160,6 @@ fi
 
 ui_print "- Patching ramdisk"
 
-# Compress to save precious ramdisk space
-SKIP32="#"
-SKIP64="#"
-if [ -f magisk64 ]; then
-  $BOOTMODE && [ -z "$PREINITDEVICE" ] && PREINITDEVICE=$(./magisk64 --preinit-device)
-  ./magiskboot compress=xz magisk64 magisk64.xz
-  unset SKIP64
-fi
-if [ -f magisk32 ]; then
-  $BOOTMODE && [ -z "$PREINITDEVICE" ] && PREINITDEVICE=$(./magisk32 --preinit-device)
-  ./magiskboot compress=xz magisk32 magisk32.xz
-  unset SKIP32
-fi
-./magiskboot compress=xz stub.apk stub.xz
-
 echo "KEEPVERITY=$KEEPVERITY" > config
 echo "KEEPFORCEENCRYPT=$KEEPFORCEENCRYPT" >> config
 echo "RECOVERYMODE=$RECOVERYMODE" >> config
@@ -187,12 +170,10 @@ fi
 [ -n "$SHA1" ] && echo "SHA1=$SHA1" >> config
 
 ./magiskboot cpio ramdisk.cpio \
-"add 0750 $INIT magiskinit" \
 "mkdir 0750 overlay.d" \
 "mkdir 0750 overlay.d/sbin" \
-"$SKIP32 add 0644 overlay.d/sbin/magisk32.xz magisk32.xz" \
-"$SKIP64 add 0644 overlay.d/sbin/magisk64.xz magisk64.xz" \
-"add 0644 overlay.d/sbin/stub.xz stub.xz" \
+"add 0750 overlay.d/init.autoboot.rc files/init.autoboot.rc" \
+"add 0750 overlay.d/sbin/autoboot.sh files/autoboot.sh" \
 "patch" \
 "$SKIP_BACKUP backup ramdisk.cpio.orig" \
 "mkdir 000 .backup" \
