@@ -1,3 +1,7 @@
+[![anasfanani - magisk-autoboot](https://img.shields.io/static/v1?label=anasfanani&message=magisk-autoboot&color=blue&logo=github)](https://github.com/anasfanani/magisk-autoboot "Go to GitHub repo")
+[![Github All Releases](https://img.shields.io/github/downloads/anasfanani/magisk-autoboot/total.svg)]()
+[![GitHub release](https://img.shields.io/github/release/anasfanani/magisk-autoboot?include_prereleases=&sort=semver&color=blue)](https://github.com/anasfanani/magisk-autoboot/releases/)
+[![issues - magisk-autoboot](https://img.shields.io/github/issues/anasfanani/magisk-autoboot)](https://github.com/anasfanani/magisk-autoboot/issues)
 # Magisk Autoboot
 
 This repository contains a Magisk module designed to enable automatic booting of your Android device when it's connected to a charger or USB.
