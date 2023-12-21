@@ -1,3 +1,8 @@
+v1.0.1 Device Architecture Matching Update
+- Removed the `magiskboot` binary and utilized the system-installed `magiskboot` for matching device architecture.
+- Added a check for local `magiskboot` in `customize.sh`.
+- Replaced `./magiskboot` with `$magiskboot` in `scripts/boot_patch.sh` for better compatibility.
+
 v1.0 Initial Release
 - Imported necessary scripts from /data/adb/magisk to the scripts directory.
 - Modified scripts/boot_patch.sh to enable autoboot.
