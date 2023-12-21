@@ -17,7 +17,7 @@
 #                              directory to complete the patching process.
 # util_functions.sh  script    A script which hosts all functions required
 #                              for this script to work properly.
-# magiskboot         binary    A tool to manipulate boot images.
+# $magiskboot         binary   A tool to manipulate boot images.
 # chromeos           folder    This folder includes the utility and keys to sign
 #                  (optional)  chromeos boot images. Only used for Pixel C.
 #
@@ -84,7 +84,7 @@ chmod -R 755 .
 CHROMEOS=false
 
 ui_print "- Unpacking boot image"
-./magiskboot unpack "$BOOTIMAGE"
+$magiskboot unpack "$BOOTIMAGE"
 
 case $? in
   0 ) ;;
@@ -107,7 +107,7 @@ esac
 # Test patch status and do restore
 ui_print "- Checking ramdisk status"
 if [ -e ramdisk.cpio ]; then
-  ./magiskboot cpio ramdisk.cpio test
+  $magiskboot cpio ramdisk.cpio test
   STATUS=$?
   SKIP_BACKUP=""
 else
@@ -122,7 +122,7 @@ case $((STATUS & 3)) in
     ;;
   1 )  # Magisk patched
     ui_print "- Magisk patched boot image detected"
-    # ./magiskboot cpio ramdisk.cpio \
+    # $magiskboot cpio ramdisk.cpio \
     # "extract .backup/.magisk config.orig" \
     # "restore"
     # cp -af ramdisk.cpio ramdisk.cpio.orig
@@ -166,7 +166,7 @@ if [ -n "$PREINITDEVICE" ]; then
 fi
 [ -n "$SHA1" ] && echo "SHA1=$SHA1" >> config
 
-./magiskboot cpio ramdisk.cpio \
+$magiskboot cpio ramdisk.cpio \
 "mkdir 0750 overlay.d" \
 "mkdir 0750 overlay.d/sbin" \
 "add 0750 overlay.d/init.autoboot.rc files/init.autoboot.rc" \
@@ -185,11 +185,11 @@ rm -f ramdisk.cpio.orig config magisk*.xz stub.xz
 
 for dt in dtb kernel_dtb extra; do
   if [ -f $dt ]; then
-    if ! ./magiskboot dtb $dt test; then
+    if ! $magiskboot dtb $dt test; then
       ui_print "! Boot image $dt was patched by old (unsupported) Magisk"
       abort "! Please try again with *unpatched* boot image"
     fi
-    if ./magiskboot dtb $dt patch; then
+    if $magiskboot dtb $dt patch; then
       ui_print "- Patch fstab in boot image $dt"
     fi
   fi
@@ -198,7 +198,7 @@ done
 if [ -f kernel ]; then
   PATCHEDKERNEL=false
   # Remove Samsung RKP
-  ./magiskboot hexpatch kernel \
+  $magiskboot hexpatch kernel \
   49010054011440B93FA00F71E9000054010840B93FA00F7189000054001840B91FA00F7188010054 \
   A1020054011440B93FA00F7140020054010840B93FA00F71E0010054001840B91FA00F7181010054 \
   && PATCHEDKERNEL=true
@@ -206,11 +206,11 @@ if [ -f kernel ]; then
   # Remove Samsung defex
   # Before: [mov w2, #-221]   (-__NR_execve)
   # After:  [mov w2, #-32768]
-  ./magiskboot hexpatch kernel 821B8012 E2FF8F12 && PATCHEDKERNEL=true
+  $magiskboot hexpatch kernel 821B8012 E2FF8F12 && PATCHEDKERNEL=true
 
   # Force kernel to load rootfs for legacy SAR devices
   # skip_initramfs -> want_initramfs
-  $LEGACYSAR && ./magiskboot hexpatch kernel \
+  $LEGACYSAR && $magiskboot hexpatch kernel \
   736B69705F696E697472616D667300 \
   77616E745F696E697472616D667300 \
   && PATCHEDKERNEL=true
@@ -225,7 +225,7 @@ fi
 #################
 
 ui_print "- Repacking boot image"
-./magiskboot repack "$BOOTIMAGE" || abort "! Unable to repack boot image"
+$magiskboot repack "$BOOTIMAGE" || abort "! Unable to repack boot image"
 
 # Sign chromeos boot
 $CHROMEOS && sign_chromeos
