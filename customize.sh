@@ -7,9 +7,7 @@
 SCRIPTSDIR=$MODPATH/scripts
 BACKUP_DIR="$MODPATH/AutoBoot-Backup"
 mkdir -p "$BACKUP_DIR"
-set_perm_recursive $SCRIPTSDIR 0 2000 0755 0755
-# # Load utility functions
-# . $SCRIPTSDIR/util_functions.sh
+set_perm_recursive $SCRIPTSDIR 0 2000 0644 0755
 
 # setup_flashable
 ui_print "- Magisk Autoboot Installer"
@@ -29,7 +27,6 @@ ui_print "- Device platform: $ABI"
 ##################
 install_magisk_autoboot() {
   cd $SCRIPTSDIR
-
   # Source the boot patcher
   SOURCEDMODE=true
   ui_print "- Backup current boot image"
@@ -51,7 +48,7 @@ install_magisk_autoboot() {
       abort "! $BOOTIMAGE is read only"
       ;;
   esac
-  ./magiskboot cleanup
+  $magiskboot cleanup
   rm -f new-boot.img
 }
 install_magisk_autoboot
