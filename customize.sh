@@ -35,6 +35,11 @@ install_magisk_autoboot() {
   ui_print "- Backup current boot image"
   cat $BOOTIMAGE > $BACKUP_DIR/backup_boot.img
   ui_print "- Located at $BACKUP_DIR/backup_boot.img"
+  if [ -f $MAGISKBIN/magiskboot ]; then
+    magiskboot=$MAGISKBIN/magiskboot
+  else
+    abort "! Cannot find magiskboot in [$MAGISKBIN]"
+  fi
   . ./boot_patch.sh "$BOOTIMAGE"
   ui_print "- Flashing new boot image"
   flash_image new-boot.img "$BOOTIMAGE"
