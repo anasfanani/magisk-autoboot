@@ -11,8 +11,12 @@ This repository contains a Magisk module designed to enable automatic booting of
 Before you can use this Magisk module, you need to ensure that:
 
 1. Android device rooted with [Magisk](https://github.com/topjohnwu/Magisk).
-2. Basic command line knowledge for module management.
-3. Backup of your `boot.img` to restore in case of issues.
+2. Basic knowledge for module management.
+
+**Important** :
+
+- **Backup of your `boot.img`** to restore in case of issues.
+- This module **not work** on devices where Magisk is installed via the recovery partition. It is designed to work on devices where **Magisk is installed via the boot partition**.
 
 ## Installation
 
@@ -40,16 +44,94 @@ If you encounter any issues while using this module, follow these steps:
 
 If you continue to experience issues, please raise an issue in the repository with a detailed description of the problem, steps to reproduce it, and any error messages you are seeing.
 
+## Manual Patching
+
+If you're an advanced user and want to patch your boot image manually without implementing minimum battery percentage threshold, follow these steps:
+
+### Preparation
+
+Prepare your boot image by following these steps:
+
+#### Method 1: Using TWRP Terminal
+
+On TWRP, go to Advanced > Terminal and run the following commands:
+1. Create base folder for placing boot image files. For example, `mkdir /sdcard/autboot`.
+2. Run `dd if=/dev/block/bootdevice/by-name/boot of=/sdcard/autoboot/boot.img` for dump boot.img.
+
+#### Method 2: Using ADB Shell with TWRP Recovery
+
+Boot into TWRP recovery and connect your device to your computer, connect to ADB shell and run the following commands:
+
+```
+mkdir /sdcard/autoboot
+dd if=/dev/block/bootdevice/by-name/boot of=/sdcard/autoboot/boot.img
+```
+
+#### Method 3: Using TWRP Backup
+
+On TWRP, go to Backup and select Boot. Then, swipe to backup.
+Your boot image will be backed up to `/sdcard/TWRP/BACKUPS/<device_serial_number>/<name_of_backup>/boot.emmc.win`.
+Just copy and place it in a folder `/sdcard/autoboot/` on your device, then rename it to `boot.img`.
+
+### Patching
+
+Create a file named `autoboot.init.rc` in the same folder as `boot.img` with the following contents:
+
+```rc
+on charger
+ setprop ro.bootmode "normal"
+ setprop sys.powerctl "reboot"
+```
+
+Execute the following commands:
+
+```sh
+/data/adb/magisk/magiskboot unpack boot.img
+/data/adb/magisk/magiskboot cpio ramdisk.cpio \
+"mkdir 0700 overlay.d" \
+"add 0700 overlay.d/autoboot.init.rc autoboot.init.rc"
+/data/adb/magisk/magiskboot repack boot.img boot_patched_autoboot.img
+/data/adb/magisk/magiskboot cleanup
+```
+
+### Flashing
+
+You can flash the patched boot image using the following methods:
+
+#### Method 1: Using TWRP Terminal
+
+On TWRP, go to Advanced > Terminal and run the following commands:
+
+```sh
+dd if=/sdcard/autoboot/boot_patched_autoboot.img of=/dev/block/bootdevice/by-name/boot
+```
+
+#### Method 2: Using ADB Shell with TWRP Recovery
+
+Boot into TWRP recovery and connect your device to your computer, connect to ADB shell and run the following commands:
+
+```sh
+dd if=/sdcard/autoboot/boot_patched_autoboot.img of=/dev/block/bootdevice/by-name/boot
+```
+
+#### Method 3: Using TWRP Install
+
+On TWRP, go to Install and select the patched boot image. Then, swipe to flash.
+
+### Power Off
+
+Power off your device and connect it to a charger or USB. Your device should boot automatically.
+
 ## Disclaimer
 
 This module is provided "as is" without warranty of any kind, either express or implied, including without limitation any warranties of merchantability, fitness for a particular purpose, and non-infringement. The entire risk as to the quality and performance of the module is with you. Should the module prove defective, you assume the cost of all necessary servicing, repair, or correction.
 
 ## Tested Devices
 
-The patch has been successfully tested on the following devices:
+The method has been successfully tested on the following devices:
 
-- Redmi 4X running Android 10
-- Samsung J3 (2016) running Android 7.1.2
+- Redmi 4X running Android 10 ( With implement minimum battery percentage threshold )
+- Samsung J3 (2016) running Android 7.1.2 ( Without implement minimum battery percentage threshold )
 - Redmi Note 11 (spesn) Android 13
 
 ## Links
