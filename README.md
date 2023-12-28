@@ -147,6 +147,7 @@ Here are some useful links for further reading:
 - [John Wu & Contributors.](https://github.com/topjohnwu/Magisk) for The Magic Mask for Android
 - [bnsmb](https://xdaforums.com/m/bnsmb.8498037/) for the guides at xdaforums.com
 - [tparaizo](https://xdaforums.com/m/tparaizo.9457413/) for the guides at xdaforums.com
+- [The Chromium OS Authors](https://chromium.googlesource.com/chromiumos/platform/vboot/+/0e5f54d79158f216edeb42bfe9c5cd6d35dc6e0d/) for `futility` binary
 
 ## License
 
