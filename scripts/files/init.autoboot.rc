@@ -1,2 +1,3 @@
 on charger
- exec u:r:magisk:s0 -- /system/bin/sh ${MAGISKTMP}/autoboot.sh 000
+    setprop ro.bootmode "normal"
+    setprop sys.powerctl "reboot"

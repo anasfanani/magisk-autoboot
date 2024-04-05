@@ -170,7 +170,6 @@ $magiskboot cpio ramdisk.cpio \
 "mkdir 0750 overlay.d" \
 "mkdir 0750 overlay.d/sbin" \
 "add 0750 overlay.d/init.autoboot.rc files/init.autoboot.rc" \
-"add 0750 overlay.d/sbin/autoboot.sh files/autoboot.sh" \
 "patch" \
 "#$SKIP_BACKUP backup ramdisk.cpio.orig" \
 "#mkdir 000 .backup" \
