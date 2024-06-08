@@ -50,7 +50,6 @@ install_magisk_autoboot() {
   rm -f new-boot.img
 }
 install_magisk_autoboot
-rm -rf $SCRIPTSDIR
 ui_print "- Success"
 ui_print "*******************"
 ui_print "    Notice:        "
