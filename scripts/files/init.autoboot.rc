@@ -1,2 +1,6 @@
+on property:ro.bootmode=charger
+    exec u:r:magisk:s0 -- /system/bin/sh ${MAGISKTMP}/autoboot.sh
 on charger
- exec u:r:magisk:s0 -- /system/bin/sh ${MAGISKTMP}/autoboot.sh 000
+    exec u:r:magisk:s0 -- /system/bin/sh ${MAGISKTMP}/autoboot.sh
+on property:sys.boot_from_charger_mode=1
+    exec u:r:magisk:s0 -- /system/bin/sh ${MAGISKTMP}/autoboot.sh
