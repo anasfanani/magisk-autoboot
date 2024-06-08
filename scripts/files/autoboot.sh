@@ -12,7 +12,7 @@ if [ "$(getprop autoboot)" != "1" ]; then
         # Minimum battery capacity to boot
         MIN_CAPACITY=5
         # Maximum number of attempts to check battery capacity
-        MAX_ATTEMPTS=10
+        MAX_ATTEMPTS=6
         c=0
         while [ $c -lt $MAX_ATTEMPTS ]; do
             CAPACITY=$(cat /sys/class/power_supply/battery/capacity)
