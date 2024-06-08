@@ -1,7 +1,6 @@
 id=magisk-autoboot
 name=Magisk Autoboot
-version=v1.0.1
-versionCode=010001
+version=v2.0.0
 author=anasfanani
 description=Enables the device to automatically booting after a USB/Charger connection is detected.
 updateJson=https://raw.githubusercontent.com/anasfanani/magisk-autoboot/master/update.json
