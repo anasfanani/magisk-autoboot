@@ -2,6 +2,7 @@
 [![Github All Releases](https://img.shields.io/github/downloads/anasfanani/magisk-autoboot/total.svg)]()
 [![GitHub release](https://img.shields.io/github/release/anasfanani/magisk-autoboot?include_prereleases=&sort=semver&color=blue)](https://github.com/anasfanani/magisk-autoboot/releases/)
 [![issues - magisk-autoboot](https://img.shields.io/github/issues/anasfanani/magisk-autoboot)](https://github.com/anasfanani/magisk-autoboot/issues)
+[![Telegram Discussion](https://img.shields.io/badge/Discussion-Telegram-blue?style=flat&logo=telegram&link=t.me%2Fsystembinsh%2F1736)](https://t.me/systembinsh/1736)
 # Magisk Autoboot
 
 This repository contains a Magisk module designed to enable automatic booting of your Android device when it's connected to a charger or USB.
@@ -32,13 +33,13 @@ This module adds `autoboot.init.rc` and `autoboot.sh` to the boot image. The pat
 
 In the `autoboot.sh` file, `MIN_CAPACITY=5` is set as the minimum battery percentage threshold before Android boots automatically. If your battery percentage is below 5, the device will wait until it reaches this threshold before booting automatically. If you need to adjust this threshold, change the `MIN_CAPACITY` value in the `autoboot.sh` file and reflash this module.
 
-In case of any errors, your current boot image is backed up under `/data/adb/modules/magisk-autoboot/AutoBoot-Backup`. If something happens, you can safely restore them.
+In case of any errors, your current boot image is backed up under `/data/adb/modules/magisk-autoboot/`. If something happens, you can safely restore them.
 
 ## Troubleshooting
 
 If you encounter any issues while using this module, follow these steps:
 
-1. Check if your current boot image is backed up under `/data/adb/modules/magisk-autoboot/AutoBoot-Backup`. If it is, try restoring it.
+1. Check if your current boot image is backed up under `/data/adb/modules/magisk-autoboot/`. If it is, try restoring it.
 
 2. Confirm successful installation by checking the presence of the `autoboot.sh` file in the directory outputted by the `magisk --path` command, usually `/debug_ramdisk` or `/sbin`.
 
@@ -46,7 +47,7 @@ If you continue to experience issues, please raise an issue in the repository wi
 
 ## Manual Patching
 
-If you're an advanced user and want to patch your boot image manually without implementing minimum battery percentage threshold, follow these steps:
+If you're an advanced user and want go trough hard way, follow this:
 
 ### Preparation
 
@@ -133,6 +134,11 @@ The method has been successfully tested on the following devices:
 - Redmi 4X running Android 10 ( With implement minimum battery percentage threshold )
 - Samsung J3 (2016) running Android 7.1.2 ( Without implement minimum battery percentage threshold )
 - Redmi Note 11 (spesn) Android 13
+- More devices
+
+## Notice
+
+OEM Specific device may not work, need to research which rc value should trigger autoboot script !!
 
 ## Links
 
