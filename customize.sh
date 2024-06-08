@@ -5,8 +5,6 @@
 # Default permissions
 
 SCRIPTSDIR=$MODPATH/scripts
-BACKUP_DIR="$MODPATH/AutoBoot-Backup"
-mkdir -p "$BACKUP_DIR"
 set_perm_recursive $SCRIPTSDIR 0 2000 0644 0755
 
 # setup_flashable
@@ -30,8 +28,8 @@ install_magisk_autoboot() {
   # Source the boot patcher
   SOURCEDMODE=true
   ui_print "- Backup current boot image"
-  cat $BOOTIMAGE > $BACKUP_DIR/backup_boot.img
-  ui_print "- Located at $BACKUP_DIR/backup_boot.img"
+  cat $BOOTIMAGE > $MODPATH/backup_boot.img
+  ui_print "- Save 'backup_boot.img' at module directory"
   if [ -f $MAGISKBIN/magiskboot ]; then
     magiskboot=$MAGISKBIN/magiskboot
   else
@@ -52,17 +50,11 @@ install_magisk_autoboot() {
   rm -f new-boot.img
 }
 install_magisk_autoboot
+rm -rf $SCRIPTSDIR
 ui_print "- Success"
 ui_print "*******************"
 ui_print "    Notice:        "
 ui_print "*******************"
-ui_print "- Please power off your device and see if booting automatically."
-ui_print "- If not, please open issue on my repository."
-ui_print "- If something error happen, stay calm."
-ui_print "- You can restore your boot image by flashing original boot image."
-ui_print "- Located at /data/adb/magisk/modules/AutoBoot-Backup/backup_boot.img"
-ui_print "- For uninstallation, please restore original boot image."
-ui_print "- Or you can use Magisk Manager to uninstall this module."
-ui_print "- After uninstallation, please reboot your device."
-ui_print "- Thank you for using my module."
-ui_print "- Have a nice day."
+ui_print "- Power off."
+ui_print "- Connect charger."
+ui_print "- Restore boot.img / Uninstall this module to remove autoboot."
