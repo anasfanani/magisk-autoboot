@@ -169,12 +169,8 @@ fi
 $magiskboot cpio ramdisk.cpio \
 "mkdir 0750 overlay.d" \
 "mkdir 0750 overlay.d/sbin" \
-"add 0750 overlay.d/init.autoboot.rc files/init.autoboot.rc" \
-"add 0750 overlay.d/sbin/autoboot.sh files/autoboot.sh" \
-"patch" \
-"#$SKIP_BACKUP backup ramdisk.cpio.orig" \
-"#mkdir 000 .backup" \
-"#add 000 .backup/.magisk config" \
+"add 0700 overlay.d/init.autoboot.rc files/init.autoboot.rc" \
+"add 0700 overlay.d/sbin/autoboot.sh files/autoboot.sh" \
 || abort "! Unable to patch ramdisk"
 
 rm -f ramdisk.cpio.orig config magisk*.xz stub.xz
